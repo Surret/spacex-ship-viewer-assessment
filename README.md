@@ -25,7 +25,7 @@ To get this project up and running on your local machine, follow these steps:
 
 2.  **Clone the Repository:**
     ```bash
-    git clone [YOUR_GITHUB_REPO_URL] # Replace with your actual repository URL
+    git clone  https://github.com/Surret/spacex-ship-viewer-assessment
     cd spacex-ship-viewer-assessment # Or whatever your exact repository name is
     ```
 
