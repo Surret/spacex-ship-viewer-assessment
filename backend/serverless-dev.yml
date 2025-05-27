@@ -1,0 +1,13 @@
+API_URL: ${ssm:/${self:service}/${self:provider.stage}/API_URL}
+MYSQL_USERNAME: ${ssm:/${self:service}/${self:provider.stage}/MYSQL_USERNAME}
+MYSQL_PASSWORD: ${ssm:/${self:service}/${self:provider.stage}/MYSQL_PASSWORD}
+MYSQL_HOST: ${self:custom.mySQLHost}
+S3_BUCKET: ${ssm:/${self:service}/${self:provider.stage}/S3_BUCKET}
+CUSTOM_AWS_ACCESS_KEY_ID: ${ssm:/${self:service}/${self:provider.stage}/CUSTOM_AWS_ACCESS_KEY_ID}
+CUSTOM_AWS_SECRET_ACCESS_KEY: ${ssm:/${self:service}/${self:provider.stage}/CUSTOM_AWS_SECRET_ACCESS_KEY}
+JWT_SECRET: ${ssm:/${self:service}/${self:provider.stage}/JWT_SECRET}
+DEBUG_CONFIG: ${ssm:/${self:service}/${self:provider.stage}/DEBUG_CONFIG}
+SENTRY_DSN: ${ssm:/${self:service}/${self:provider.stage}/SENTRY_DSN}
+JWKS_URI: ${ssm:/${self:service}/${self:provider.stage}/JWKS_URI}
+JWT_AUDIENCE: ${ssm:/${self:service}/${self:provider.stage}/JWT_AUDIENCE}
+JWT_ISSUER: ${ssm:/${self:service}/${self:provider.stage}/JWT_ISSUER}

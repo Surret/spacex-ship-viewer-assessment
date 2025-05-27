@@ -1,0 +1,40 @@
+# docker-compose
+version: '3'
+
+services:
+  # MySQL Database
+  database:
+    platform: linux/amd64
+    image: mysql/mysql-server:5.7
+    restart: 'no'
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./mysqldata:/var/lib/mysql
+    command: --lower_case_table_names=1
+    environment:
+      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_DATABASE: 'spacex'
+      MYSQL_HOST: localhost
+
+  # AWS Local
+  localstack:
+    image: localstack/localstack:0.14.3
+    environment:
+      - DEBUG=0
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - HOSTNAME_EXTERNAL=localhost
+      - EXTRA_CORS_ALLOWED_ORIGINS=*
+      - AWS_DEFAULT_REGION=eu-west-1
+      - DEFAULT_REGION=eu-west-1
+      - EDGE_PORT=4566
+      - SERVICES=s3
+    hostname: localhost
+    ports:
+      - '4566:4566'
+    volumes:
+      - ./localstack/tmp:/tmp/localstack
+      - ./init-aws:/docker-entrypoint-initaws.d
+      - /var/run/docker.sock:/var/run/docker.sock

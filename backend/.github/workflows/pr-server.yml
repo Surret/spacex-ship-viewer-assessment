@@ -1,0 +1,53 @@
+name: pr-server
+
+on:
+  pull_request:
+    branches:
+      - main
+
+env:
+  AWS_ACCESS_KEY_ID: '.'
+  AWS_SECRET_ACCESS_KEY: '.'
+
+jobs:
+  test-server:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+
+      - uses: actions/cache@v3
+        with:
+          path: 'node_modules'
+          key: ${{runner.os}}-${{hashFiles('yarn.lock')}}
+
+      - name: If Only Check
+        run: bash checkOnlyInTest.sh
+
+      - name: Setup
+        run: yarn
+
+      - name: Run Infrastructure
+        working-directory: ./infrastructure/
+        run: |
+          nohup ./start.sh > infrastructure-output.txt &
+          ./wait-for.sh localhost:3306 -t 400 -- echo "mysql ready"
+
+      - name: Lint
+        run: yarn lint
+
+      - name: Spec
+        run: yarn spec
+        env:
+          MYSQL_DATABASE: spacex
+          MYSQL_HOST: localhost
+          MYSQL_USERNAME: root
+          MYSQL_PASSWORD: password
+          JWT_SECRET: '.'
